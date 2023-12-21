@@ -153,7 +153,7 @@ const EventForm = ({ userId, type }: EventFormProps) => {
         <div className='flex flex-col gap-5 md:flex-row'>
           <FormField
             control={form.control}
-            name='description'
+            name='location'
             render={({ field }) => (
               <FormItem className='w-full'>
                 <FormControl>
@@ -188,7 +188,7 @@ const EventForm = ({ userId, type }: EventFormProps) => {
                   <div className='flex items-center h-[54px] w-full overflow-hidden rounded-full bg-grey-50 px-4 py-2'>
                     <Image
                       src='/assets/icons/calendar.svg'
-                      alt='location'
+                      alt='startDate'
                       width={24}
                       height={24}
                       className='filter-grey'
@@ -219,7 +219,7 @@ const EventForm = ({ userId, type }: EventFormProps) => {
                   <div className='flex items-center h-[54px] w-full overflow-hidden rounded-full bg-grey-50 px-4 py-2'>
                     <Image
                       src='/assets/icons/calendar.svg'
-                      alt='location'
+                      alt='endDate'
                       width={24}
                       height={24}
                       className='filter-grey'
@@ -280,6 +280,8 @@ const EventForm = ({ userId, type }: EventFormProps) => {
                               </label>
                               <Checkbox
                                 id='isFree'
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
                                 className='mr-2 h-5 w-5 border-2 border-primary-500'
                               />
                             </div>

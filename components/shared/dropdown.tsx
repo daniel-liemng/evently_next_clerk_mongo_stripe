@@ -1,6 +1,6 @@
 'use client';
 
-import { startTransition, useState } from 'react';
+import { startTransition, useEffect, useState } from 'react';
 
 import {
   Select,
@@ -23,6 +23,7 @@ import {
 
 import { ICategory } from '@/mongodb/models/category.model';
 import { Input } from '../ui/input';
+import { createCategory, getAllCategories } from '@/actions/category.action';
 
 interface DropdownProps {
   value?: string;
@@ -33,7 +34,17 @@ const Dropdown = ({ value, onChange }: DropdownProps) => {
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [newCategory, setNewCategory] = useState<string>('');
 
-  const handleAddCategory = () => {};
+  useEffect(() => {
+    getAllCategories().then((allCategories: ICategory[]) =>
+      setCategories(allCategories)
+    );
+  }, []);
+
+  const handleAddCategory = () => {
+    createCategory({ categoryName: newCategory.trim() }).then((category) => {
+      setCategories((prevVal) => [...prevVal, category]);
+    });
+  };
 
   return (
     <Select defaultValue={value} onValueChange={onChange}>
@@ -55,7 +66,7 @@ const Dropdown = ({ value, onChange }: DropdownProps) => {
 
         <AlertDialog>
           <AlertDialogTrigger className='p-medium-14 flex w-full rounded-sm py-3 pl-8 text-primary-500 hover:bg-primary-50 focus:text-primary-500'>
-            Open
+            Add new category
           </AlertDialogTrigger>
 
           <AlertDialogContent className='bg-white'>
