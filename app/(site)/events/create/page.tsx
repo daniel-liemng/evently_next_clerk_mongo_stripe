@@ -1,12 +1,11 @@
 import EventForm from '@/components/shared/event-form';
 import { auth } from '@clerk/nextjs';
+import { redirect } from 'next/navigation';
 
 const CreateEventPage = () => {
   const { sessionClaims } = auth();
 
   const userId = sessionClaims?.userId as string;
-
-  // console.log(userId);
 
   return (
     <>
