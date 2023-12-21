@@ -9,6 +9,7 @@ import {
   CreateEventParams,
   DeleteEventParams,
   GetAllEventsParams,
+  UpdateEventParams,
 } from '@/types';
 import { revalidatePath } from 'next/cache';
 
@@ -107,6 +108,34 @@ export const deleteEvent = async ({ eventId, path }: DeleteEventParams) => {
     if (deletedEvent) {
       revalidatePath(path);
     }
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+export const updateEvent = async ({
+  event,
+  userId,
+  path,
+}: UpdateEventParams) => {
+  try {
+    await connectDB();
+
+    const eventToUpdate = await Event.findById(event._id);
+
+    if (!eventToUpdate || eventToUpdate.organizer.toHexString() !== userId) {
+      throw new Error('Unauthorized or event not found');
+    }
+
+    const updatedEvent = await Event.findByIdAndUpdate(
+      event._id,
+      { ...event, category: event.categoryId },
+      { new: true }
+    );
+
+    revalidatePath(path);
+
+    return JSON.parse(JSON.stringify(updatedEvent));
   } catch (error) {
     handleError(error);
   }
