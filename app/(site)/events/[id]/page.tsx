@@ -3,6 +3,7 @@ import {
   getEventById,
   getRelatedEventsByCategory,
 } from '@/actions/event.action';
+import CheckoutButton from '@/components/shared/checkout-button';
 import Collection from '@/components/shared/collection';
 import { formatDateTime } from '@/lib/helpers';
 import { SearchParamProps } from '@/types';
@@ -56,6 +57,8 @@ const EventIdPage = async ({
             </div>
 
             {/* CHECKOUT BUTTON */}
+            <CheckoutButton event={event} />
+
             <div className='flex flex-col gap-5'>
               <div className='flex gap-2 md:gap-3'>
                 <Image
@@ -75,7 +78,6 @@ const EventIdPage = async ({
                   </p>
                 </div>
               </div>
-
               <div className='p-regular-20 flex items-center gap-3'>
                 <Image
                   src='/assets/icons/location.svg'
